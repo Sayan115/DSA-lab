@@ -4,109 +4,119 @@ struct node
 {
     int data;
     struct node *next;
+    struct node *prev;
 };
-void push(struct node **top, int data);
-int pop(struct node **top);
-struct queue
+
+struct node *insertNode(struct node *HEAD)
 {
-    struct node *stack1;
-    struct node *stack2;
-};
-void enqueue(struct queue *q, int x)
-{
-    push(&q->stack1, x);
-}
-void dequeue(struct queue *q)
-{
-    int x;
-    if (q->stack1 == NULL && q->stack2 == NULL)
+    int pos, value;
+    printf("Enter data and position: ");
+    scanf("%d %d", &value, &pos);
+    struct node *NEW = (struct node *)malloc(sizeof(struct node));
+    NEW->data = value;
+    if (pos == 1)
     {
-        printf("queue is empty");
-        return;
-    }
-    if (q->stack2 == NULL)
-    {
-        while (q->stack1 != NULL)
+        NEW->next = HEAD;
+        struct node *ptr = HEAD;
+        while (ptr->next != HEAD && ptr->next != NULL)
         {
-            x = pop(&q->stack1);
-            push(&q->stack2, x);
+            ptr = ptr->next;
         }
+        ptr->next = NEW;
+        NEW->prev = ptr;
+        return NEW;
     }
-    x = pop(&q->stack2);
-    printf("%d\n", x);
-}
-void push(struct node **top, int data)
-{
-    struct node *newnode = (struct node *)malloc(sizeof(struct node));
-    if (newnode == NULL)
+    struct node *ptr = HEAD;
+    int count = 1;
+    while (ptr->next != HEAD && count < pos - 1)
     {
-        printf("Stack overflow \n");
+        ptr = ptr->next;
+        count++;
+    }
+    struct node *temp = ptr->next;
+    ptr->next = NEW;
+    NEW->next = temp;
+    NEW->prev = ptr;
+    return HEAD;
+}
+
+struct node *create(struct node *prev)
+{
+    struct node *NEW = (struct node *)malloc(sizeof(struct node));
+    printf("Enter value: ");
+    scanf("%d", &NEW->data);
+    NEW->next = NULL;
+    NEW->prev = prev;
+    return NEW;
+}
+void printLL(struct node *HEAD)
+{
+    if (HEAD == NULL)
+    {
         return;
     }
-    newnode->data = data;
-    newnode->next = (*top);
-    (*top) = newnode;
+    struct node *ptr = HEAD;
+    do
+    {
+        printf("%d ", ptr->data);
+        ptr = ptr->next;
+    } while (ptr != HEAD && ptr != NULL);
+    printf("\n");
+    ptr = HEAD;
+	while (ptr->next != HEAD)
+	{
+		ptr = ptr->next;
+	}
+	while (ptr != HEAD)
+	{
+		printf("%d ", ptr->data);
+		ptr = ptr->prev;
+	}
+	printf("%d ", ptr->data);
+
 }
-int pop(struct node **top)
-{
-    int buff;
-    struct node *t;
-    if (*top == NULL)
-    {
-        printf("Stack underflow \n");
-        return;
-    }
-    else
-    {
-        t = *top;
-        buff = t->data;
-        *top = t->next;
-        free(t);
-        return buff;
-    }
-}
-void display(struct node *top1, struct node *top2)
-{
-    while (top1 != NULL)
-    {
-        printf("%d\n", top1->data);
-        top1 = top1->next;
-    }
-    while (top2 != NULL)
-    {
-        printf("%d\n", top2->data);
-        top2 = top2->next;
-    }
-}
+
 int main()
 {
-    struct queue q = (struct queue)malloc(sizeof(struct queue));
-    int f = 0, a;
-    char ch = 'y';
-    q->stack1 = NULL;
-    q->stack2 = NULL;
-    while (ch == 'y' || ch == 'Y')
+    char choice;
+    struct node *HEAD, *NEW;
+    HEAD = NULL;
+    NEW = (struct node *)malloc(sizeof(struct node));
+    printf("Enter value: ");
+    scanf("%d", &NEW->data);
+    NEW->next = NEW;
+    NEW->prev = NEW;
+    HEAD = NEW;
+    printf("Do you want to add another node(Y/N)\n");
+    scanf(" %c", &choice);
+    while (choice == 'Y' || choice == 'y')
     {
-        printf("enter ur choice\n1.add to queue\n2.remove from queue\n3.display\n4.exit\n");
-        scanf("%d", &f);
-        switch (f)
+        NEW->next = create(NEW);
+        NEW = NEW->next;
+        printf("Do you want to add another node(Y/N)\n");
+        scanf(" %c", &choice);
+    }
+    if (NEW != HEAD)
+    {
+        NEW->next = HEAD;
+        HEAD->prev = NEW;
+    }
+    int ch = 1;
+    while (ch == 1 || ch == 2 || ch == 3)
+    {
+        printf("Enter 1 to insert node\n2 to display: ");
+        scanf("%d", &ch);
+        if (ch == 1)
         {
-        case 1:
-            printf("enter the element to be added to queue\n");
-            scanf("%d", &a);
-            enqueue(q, a);
-            break;
-        case 2:
-            dequeue(q);
-            break;
-        case 3:
-            display(q->stack1, q->stack2);
-            break;
-        case 4:
-            exit(1);
-            break;
-        default:
-            printf("invalid\n");
+            HEAD = insertNode(HEAD);
+            printLL(HEAD);
+        }
+        else if (ch == 2)
+        {
+            printLL(HEAD);
+        }
+        else
+        {
             break;
         }
     }
