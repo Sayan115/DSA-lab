@@ -20,6 +20,37 @@ void build_tree(int t[], int index, int item)
         build_tree(t, 2 * index + 2, data);
     }
 }
+
+void inorder(int t[], int pos)
+{
+    if (t[pos] != -1)
+    {
+        inorder(t, 2 * pos + 1);
+        printf("%d ", t[pos]);
+        inorder(t, 2 * pos + 2);
+    }
+}
+
+void inorder(int t[], int pos)
+{
+    if (t[pos] != -1)
+    {
+        inorder(t, 2 * pos + 1);
+        printf("%d ", t[pos]);
+        inorder(t, 2 * pos + 2);
+    }
+}
+
+void inorder(int t[], int pos)
+{
+    if (t[pos] != -1)
+    {
+        inorder(t, 2 * pos + 1);
+        printf("%d ", t[pos]);
+        inorder(t, 2 * pos + 2);
+    }
+}
+
 void main()
 {
     int t[20];
@@ -30,9 +61,5 @@ void main()
     scanf("%d", &item);
     build_tree(t, 0, item);
     printf("Tree= ");
-    for (int i = 0; i < 20; i++)
-        if (t[i] == -1)
-            printf("_ ");
-        else
-            printf("%d ", t[i]);
+    inorder(t, 0);
 }
