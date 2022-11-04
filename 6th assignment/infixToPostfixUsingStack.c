@@ -44,7 +44,7 @@ int main()
     e[len] = ')';
     while (e[i] != '\0')
     {
-        if ((int)e[i] >= 48 && (int)e[i] <= 57)
+        if ((int)e[i] >= 48 && (int)e[i] <= 57 || (int)e[i] >= 65 && (int)e[i] <= 90 || (int)e[i] >= 97 && (int)e[i] <= 122)
         {
             printf("%c", e[i]);
         }

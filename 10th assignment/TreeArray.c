@@ -31,23 +31,23 @@ void inorder(int t[], int pos)
     }
 }
 
-void inorder(int t[], int pos)
+void pre(int t[], int pos)
 {
     if (t[pos] != -1)
     {
-        inorder(t, 2 * pos + 1);
         printf("%d ", t[pos]);
-        inorder(t, 2 * pos + 2);
+        pre(t, 2 * pos + 1);
+        pre(t, 2 * pos + 2);
     }
 }
 
-void inorder(int t[], int pos)
+void post(int t[], int pos)
 {
     if (t[pos] != -1)
     {
-        inorder(t, 2 * pos + 1);
+        post(t, 2 * pos + 1);
+        post(t, 2 * pos + 2);
         printf("%d ", t[pos]);
-        inorder(t, 2 * pos + 2);
     }
 }
 
@@ -62,4 +62,8 @@ void main()
     build_tree(t, 0, item);
     printf("Tree= ");
     inorder(t, 0);
+    printf("\n");
+    pre(t, 0);
+    printf("\n");
+    post(t, 0);
 }

@@ -199,6 +199,5 @@ int main()
     printf("\nlets make second polynomial:\n");
     p2();
     printf("\n lets do sum\n");
-
-    addition(h1, HEAD);
+    addition();
 }
